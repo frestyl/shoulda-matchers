@@ -1,6 +1,7 @@
 require 'shoulda/matchers/active_record/helpers'
 require 'shoulda/matchers/active_record/validation_matcher'
 require 'shoulda/matchers/active_record/allow_value_matcher'
+require 'shoulda/matchers/active_record/allow_range_matcher'
 require 'shoulda/matchers/active_record/ensure_length_of_matcher'
 require 'shoulda/matchers/active_record/ensure_inclusion_of_matcher'
 require 'shoulda/matchers/active_record/validate_presence_of_matcher'

@@ -48,6 +48,20 @@ module Shoulda # :nodoc:
             true
           end
         end
+
+        def allows_range_of(value, message = nil)
+          allow = AllowRangeMatcher.
+            new(value).
+            for(@attribute).
+            with_message(message)
+          if allow.matches?(@subject)
+            @negative_failure_message = allow.failure_message
+            true
+          else
+            @failure_message = allow.negative_failure_message
+            false
+          end
+        end
       end
 
     end

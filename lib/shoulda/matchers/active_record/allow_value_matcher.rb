@@ -39,7 +39,7 @@ module Shoulda # :nodoc:
           if Symbol === @expected_message
             @expected_message = default_error_message(@expected_message)
           end
-          @instance.send("#{@attribute}=", @value)
+          assign_value_for(@instance, @attribute, @value)
           !errors_match?
         end
 
@@ -62,6 +62,10 @@ module Shoulda # :nodoc:
           @errors = errors_for_attribute(@instance, @attribute)
           @errors = [@errors] unless @errors.is_a?(Array)
           @expected_message ? (errors_match_regexp? || errors_match_string?) : (@errors.compact.any?)
+        end
+
+        def assign_value_for(instance, attribute, value)
+          instance.send("#{attribute}=", value)
         end
 
         def errors_for_attribute(instance, attribute)

@@ -34,7 +34,7 @@ module Shoulda # :nodoc:
         def matches?(subject)
           super(subject)
           @expected_message ||= :inclusion
-          allows_value_of(@range, @expected_message) if @range
+          allows_range_of(@range, @expected_message) if @range
         end
 
         def description
