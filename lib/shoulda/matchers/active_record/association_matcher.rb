@@ -18,11 +18,14 @@ module Shoulda # :nodoc:
       # * <tt>through</tt> - association name for <tt>has_many :through</tt>
       # * <tt>dependent</tt> - tests that the association makes use of the
       #   dependent option.
+      # * <tt>as</tt> - tests that the association makes use of the
+      #   as option.
       #
       # Example:
       #   it { should have_many(:friends) }
       #   it { should have_many(:enemies).through(:friends) }
       #   it { should have_many(:enemies).dependent(:destroy) }
+      #   it { should have_many(:recommendations).as(:recommendable) }
       #
       def have_many(name)
         AssociationMatcher.new(:has_many, name)
@@ -35,9 +38,12 @@ module Shoulda # :nodoc:
       # Options:
       # * <tt>:dependent</tt> - tests that the association makes use of the
       #   dependent option.
+      # * <tt>:as</tt> - tests that the association makes use of the
+      #   as option.
       #
       # Example:
       #   it { should have_one(:god) } # unless hindu
+      #   it { should have_one(:attachment).as(:attachable) }
       #
       def have_one(name)
         AssociationMatcher.new(:has_one, name)
@@ -68,6 +74,11 @@ module Shoulda # :nodoc:
           self
         end
 
+        def as(as)
+          @as = as
+          self
+        end
+
         def matches?(subject)
           @subject = subject
           association_exists? &&
@@ -75,6 +86,7 @@ module Shoulda # :nodoc:
             foreign_key_exists? &&
             through_association_valid? &&
             dependent_correct? &&
+            as_correct? &&
             join_table_exists?
         end
 
@@ -90,6 +102,7 @@ module Shoulda # :nodoc:
           description = "#{macro_description} #{@name}"
           description += " through #{@through}" if @through
           description += " dependent => #{@dependent}" if @dependent
+          description += " as => #{@as}" if @as
           description
         end
 
@@ -155,6 +168,15 @@ module Shoulda # :nodoc:
             true
           else
             @missing = "#{@name} should have #{@dependent} dependency"
+            false
+          end
+        end
+
+        def as_correct?
+          if @as.nil? || @as.to_s == reflection.options[:as].to_s
+            true
+          else
+            @missing = "Expected #{model_class.name} to have #{@name} as #{@as}"
             false
           end
         end

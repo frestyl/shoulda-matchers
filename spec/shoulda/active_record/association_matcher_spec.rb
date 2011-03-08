@@ -102,14 +102,8 @@ describe Shoulda::Matchers::ActiveRecord::AssociationMatcher do
         has_many :children, :as => :guardian
       end
       Parent.new.should @matcher
-    end
-
-    it "should reject an association that has a nonexistent foreign key" do
-      define_model :child
-      define_model :parent do
-        has_many :children
-      end
-      Parent.new.should_not @matcher
+      @matcher.as(:guardian).matches?(Parent.new).should be_true
+      @matcher.as(:wrong).matches?(Parent.new).should be_false
     end
 
     it "should reject an association with a bad :as option" do
@@ -117,6 +111,15 @@ describe Shoulda::Matchers::ActiveRecord::AssociationMatcher do
                            :caretaker_id   => :integer
       define_model :parent do
         has_many :children, :as => :guardian
+      end
+      Parent.new.should_not @matcher
+      @matcher.as(:guardian).matches?(Parent.new).should be_false
+    end
+
+    it "should reject an association that has a nonexistent foreign key" do
+      define_model :child
+      define_model :parent do
+        has_many :children
       end
       Parent.new.should_not @matcher
     end
@@ -182,6 +185,8 @@ describe Shoulda::Matchers::ActiveRecord::AssociationMatcher do
         has_one :detail, :as => :detailable
       end
       Person.new.should @matcher
+      @matcher.as(:detailable).matches?(Person.new).should be_true
+      @matcher.as(:wrong).matches?(Person.new).should be_false
     end
 
     it "should reject an association that has a nonexistent foreign key" do
