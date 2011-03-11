@@ -58,7 +58,7 @@ module Shoulda # :nodoc:
         end
 
         def description
-          "has #{@filter_kind ? "#{@filter_kind} " : ""}filter: #{@name} only: #{only.inspect} except: #{except.inspect}"
+          "has #{@filter_kind ? "#{@filter_kind} " : ""}filter: #{@name} only: #{@only.inspect} except: #{@except.inspect}"
         end
 
         private
