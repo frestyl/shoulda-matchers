@@ -45,7 +45,7 @@ module Shoulda # :nodoc:
           else
             "a"
           end
-          "Expected #{@name} to be declared as #{preposition} filter #{@only ? ", only on #{@only.inspect}" : ""}#{@except ? ", except on #{@except.inspect}" : ""}"
+          "Expected #{@name} to be declared as #{preposition} filter#{@only ? ", only on #{@only.inspect}" : ""}#{@except ? ", except on #{@except.inspect}" : ""}"
         end
 
         def negative_failure_message
@@ -54,7 +54,7 @@ module Shoulda # :nodoc:
           else
             "a"
           end
-          "Did not expect #{@name} to be declared as #{preposition} filter #{@only ? ", only on #{@only.inspect}" : ""}#{@except ? ", except on #{@except.inspect}" : ""}"
+          "Did not expect #{@name} to be declared as #{preposition} filter#{@only ? ", only on #{@only.inspect}" : ""}#{@except ? ", except on #{@except.inspect}" : ""}"
         end
 
         def description
