@@ -51,6 +51,22 @@ describe Shoulda::Matchers::ActiveRecord::AssociationMatcher do
       end
       Child.new.should @matcher
     end
+    
+    it "should accept a polymorphic association with a valid :polymorphic option" do
+      define_model :child, :parent_type => :string,
+                           :parent_id   => :integer do
+        belongs_to :parent, :polymorphic => true
+      end
+      Child.new.should @matcher.polymorphic(true)
+    end
+    
+    it "should accept a polymorphic association with a bad :polymorphic option" do
+      define_model :child, :parent_type => :string,
+                           :parent_id   => :integer do
+        belongs_to :parent, :polymorphic => true
+      end
+      Child.new.should @matcher.polymorphic(false)
+    end
 
     it "should accept an association with a valid :dependent option" do
       define_model :parent

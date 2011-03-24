@@ -78,6 +78,11 @@ module Shoulda # :nodoc:
           @as = as
           self
         end
+        
+        def polymorphic(polymorphic)
+          @polymorphic = polymorphic
+          self
+        end
 
         def matches?(subject)
           @subject = subject
@@ -180,6 +185,16 @@ module Shoulda # :nodoc:
             false
           end
         end
+
+        def polymorphic_correct?
+          if @polymorphic.nil? || @polymorphic == reflection.options[:polymorphic]
+            true
+          else
+            @missing = "Expected #{model_class.name} to belong_to #{@name}, :polymorphic => #{polymorphic.inspect}"
+            false
+          end
+        end
+        
 
         def join_table_exists?
           if @macro != :has_and_belongs_to_many ||
